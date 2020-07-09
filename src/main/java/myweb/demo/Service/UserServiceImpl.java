@@ -1,10 +1,14 @@
 package myweb.demo.Service;
 
 import myweb.demo.Entity.User;
+import myweb.demo.Entity.UserRole;
+import myweb.demo.Model.UserAuth;
 import myweb.demo.Repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import java.util.Base64;
 import java.util.List;
 
 
@@ -12,6 +16,10 @@ import java.util.List;
 public class UserServiceImpl implements UserService {
     @Autowired
     private UserRepository userRepository;
+    @Autowired
+    private UserRoleService userRoleService;
+    @Autowired
+    private PasswordEncoder passwordEncoder;
 
     @Override
     public List<User> getAll() {
@@ -20,7 +28,14 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public User create(User user) {
-        return userRepository.save(user);
+        String encodedPassword=passwordEncoder.encode(user.getPassword());
+        user.setPassword(encodedPassword);
+        user  = userRepository.save(user);
+        UserRole userRole  = new UserRole();
+        userRole.setName("ROLE_ADMIN");
+        userRole.setUser(user);
+        userRoleService.create(userRole);
+        return user;
     }
 
     @Override
@@ -29,7 +44,23 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public List<User> getByLogin(String login) {
+    public String getToken(UserAuth userAuth) {
+        User user = getByLogin(userAuth.getLogin());
+        if (user == null) return "Error";
+        String rawPassword = userAuth.getPassword();
+        String encodedPassword = user.getPassword();
+        //Проверяет совпадают ли пароли
+        if (passwordEncoder.matches(rawPassword,encodedPassword)){
+            String loginPasswordPair = userAuth.getLogin() + ":" +userAuth.getPassword();
+            //Принимает массив байтов нужно конвертировать в байт
+            String token = Base64.getEncoder().encodeToString(loginPasswordPair.getBytes());
+            return "Basic " + token;
+        }
+        return "Error"; //"Wrong login or Password";
+    }
+
+    @Override
+    public User getByLogin(String login) {
         return userRepository.findAllByLoginIgnoringCase(login);
     }
 }

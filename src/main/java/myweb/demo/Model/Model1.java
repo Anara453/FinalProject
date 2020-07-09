@@ -7,7 +7,8 @@ import lombok.NoArgsConstructor;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-public class CarsByModel {
-       private String carYear;
-       private String mark;
+public class Model1 {
+    private String mark;
+    private String carYear;
+    private String color;
 }

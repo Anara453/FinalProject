@@ -7,11 +7,7 @@ import lombok.NoArgsConstructor;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-public class CarsByAll {
-    private String mark;
-    private String carYear;
-    private String img;
-    private String color;
-    private String price;
+public class UserRoleModel {
+    private String roleName;
     private Long userId;
 }

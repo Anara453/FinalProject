@@ -1,7 +1,9 @@
 package myweb.demo.Controller;
 
 import myweb.demo.Entity.Cars;
-import myweb.demo.Model.CarsByAll;
+import myweb.demo.Model.CarsModel;
+import myweb.demo.Model.Model1;
+import myweb.demo.Model.Model2;
 import myweb.demo.Service.CarsService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
@@ -14,29 +16,28 @@ public class CarsController {
        @Autowired
        private CarsService carsService;
       @PostMapping("/create")
-      public Cars create(@RequestBody Cars cars){
+      public Cars create(@RequestBody CarsModel cars){
           return carsService.create(cars);
       }
       @GetMapping("{id}")
     public Cars getById(@PathVariable Long id){
         return carsService.getById(id);
       }
-      @GetMapping("/mark")
-    public List<Cars> getAllByMark (@RequestHeader String mark){
+      @GetMapping("{mark}")
+    public List<Cars> getAllByMark (@PathVariable String mark){
           return carsService.getAllByMark(mark);
       }
       @GetMapping("/mark/year")
-    public List<Cars> getAllByCarYearAndMark (@RequestBody String carYear, String mark){
-     return carsService.getAllByCarYearAndMark(carYear, mark);
+    public List<Cars> getAllByCarYearAndMark (@RequestBody Model2 model2){
+     return carsService.getAllByCarYearAndMark(model2.getCarYear(), model2.getMark());
       }
-      @GetMapping("/carYear/mark/color")
-    public List<Cars> getAllByMarkByCarYearAndColor(@RequestBody String carYear, String mark, String color){
-          return carsService.getAllByMArkByCarYearByColor(carYear, mark, color);
-      }
-      @DeleteMapping
-      public Cars deleteById(@RequestParam (name = "id") Long id){
-          return carsService.deleteById(id);
-      }
-
+      @PostMapping("/carYear/mark/color")
+    public List<Cars> getAllByMarkByCarYearAndColor(@RequestBody Model1 model){
+        return carsService.getAllByMArkByCarYearByColor(model.getCarYear(), model.getMark(), model.getColor());
+    }
+    @DeleteMapping("{id}")
+    public Cars deleteById (@PathVariable Long id){
+        return carsService.deleteById(id);
+    }
 
 }

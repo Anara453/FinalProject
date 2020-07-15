@@ -9,7 +9,7 @@ import myweb.demo.Model.Model2;
 import java.util.List;
 
 public interface CarsService {
-    Cars create(CarsModel carsModel);
+    Cars create(CarsModel carsModel, String email);
     Cars getById (Long id);
     Cars deleteById(Long id);
     List <Cars> getAllByMark(String mark);

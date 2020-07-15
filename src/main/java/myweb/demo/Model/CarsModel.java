@@ -12,7 +12,6 @@ public class CarsModel {
     private String carYear;
     private String color;
     private String price;
-    private Long userId;
     private String volume;
     private String privod;
     private String kuzov;

@@ -8,6 +8,7 @@ import myweb.demo.Service.CarsService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
+import java.security.Principal;
 import java.util.List;
 
 @RestController
@@ -16,8 +17,9 @@ public class CarsController {
        @Autowired
        private CarsService carsService;
       @PostMapping("/create")
-      public Cars create(@RequestBody CarsModel cars){
-          return carsService.create(cars);
+      public Cars create(@RequestBody CarsModel cars, Principal principal){
+          String login = principal.getName();
+          return carsService.create(cars, login);
       }
       @GetMapping("{id}")
     public Cars getById(@PathVariable Long id){

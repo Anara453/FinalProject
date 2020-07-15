@@ -3,8 +3,6 @@ package myweb.demo.Service;
 import myweb.demo.Entity.Cars;
 import myweb.demo.Entity.User;
 import myweb.demo.Model.CarsModel;
-import myweb.demo.Model.Model1;
-import myweb.demo.Model.Model2;
 import myweb.demo.Repository.CarsRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -19,9 +17,9 @@ public class CarsServiceImpl implements CarsService {
     private UserService userService;
 
     @Override
-    public Cars create(CarsModel carsModel) {
+    public Cars create(CarsModel carsModel, String email) {
         Cars cars = new Cars();
-        User user = userService.getById(carsModel.getUserId());
+        User userByLogin = userService.getByEmail(email);
         cars.setCarYear(carsModel.getCarYear());
         cars.setColor(carsModel.getColor());
         cars.setMark(carsModel.getMark());
@@ -31,7 +29,7 @@ public class CarsServiceImpl implements CarsService {
         cars.setRul(carsModel.getRul());
         cars.setVolume(carsModel.getVolume());
         cars.setPrice(carsModel.getPrice());
-        cars.setUser(user);
+        cars.setUser(userByLogin);
         return carsRepository.save(cars);
     }
     @Override

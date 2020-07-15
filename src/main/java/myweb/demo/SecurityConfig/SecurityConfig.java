@@ -23,22 +23,16 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     @Override
     protected void configure (AuthenticationManagerBuilder auth) throws Exception {
         auth.jdbcAuthentication().dataSource(dataSource)
-
-         .usersByUsernameQuery("select login,password,is_active from users where login=?")
-         .usersByUsernameQuery("select u.login,ur.role_name from user_role ur inner join users u on ur.user_id=u.id where u.login=? and u.is_active=1");
+             .usersByUsernameQuery("select email, password, is_active from users where email=?")
+         .authoritiesByUsernameQuery("select u.email,ur.role_name from user_role ur inner join users u on user_id = u.id where u.email =? and u.is_active=1");
 
     }
     @Override
     protected void configure(HttpSecurity http) throws Exception {
         http.httpBasic().and().authorizeRequests()
-                .antMatchers(HttpMethod.GET,"/cars").hasRole("USER")
-                .antMatchers(HttpMethod.GET,"/cars").hasRole("ADMIN")
-                .antMatchers(HttpMethod.POST,"/cars").hasRole("ADMIN")
-                .antMatchers(HttpMethod.PUT,"/cars").hasRole("ADMIN")
-                .antMatchers(HttpMethod.DELETE,"/cars").hasRole("ADMIN")
+                .antMatchers(HttpMethod.POST,"/login/registration").permitAll()
                 .and().csrf().disable();
     }
-
     @Bean
     public PasswordEncoder passwordEncoder(){
         return new BCryptPasswordEncoder();

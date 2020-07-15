@@ -12,7 +12,6 @@ import org.springframework.web.bind.annotation.RestController;
 public class MailSendController {
     @Autowired
     private MailSendService mailSendService;
-
     @PostMapping
     public boolean send(@RequestParam(name = "toEmail") String toEmail,
                         @RequestParam(name = "subject") String subject,

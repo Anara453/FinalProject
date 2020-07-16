@@ -24,6 +24,6 @@ public class User {
     @Column(name = "phone_Num",nullable = false)
     private String phoneNum;
     @Column(name = "is_active",nullable = false)
-    private String isActive;
+    private Integer isActive;
 
 }

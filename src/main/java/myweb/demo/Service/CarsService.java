@@ -2,9 +2,6 @@ package myweb.demo.Service;
 
 import myweb.demo.Entity.Cars;
 import myweb.demo.Model.CarsModel;
-import myweb.demo.Model.Model1;
-import myweb.demo.Model.Model2;
-
 
 import java.util.List;
 

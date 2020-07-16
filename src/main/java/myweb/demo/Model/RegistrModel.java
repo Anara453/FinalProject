@@ -11,6 +11,6 @@ public class RegistrModel {
     private String name;
     private String email;
     private String password;
-    private String isActive;
+    private Integer isActive;
     private String phoneNum;
 }

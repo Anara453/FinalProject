@@ -37,7 +37,7 @@ public class UserController {
              String userEmail = principal.getName();
              return userService.getByEmail(userEmail);
     }
-    @DeleteMapping("{id}")
+    @DeleteMapping("/{id}")
     public User deleteById (@PathVariable Long id){
              return userService.deleteById(id);
     }

@@ -22,5 +22,8 @@ public class Image {
     @ManyToOne
     @JoinColumn(name = "cars_id",nullable = false)
     private Cars cars;
+    @ManyToOne
+    @JoinColumn(name = "user_id")
+    private User user;
 
 }

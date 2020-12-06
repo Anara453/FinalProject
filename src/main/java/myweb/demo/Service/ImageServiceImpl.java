@@ -4,6 +4,7 @@ import com.cloudinary.Cloudinary;
 import com.cloudinary.utils.ObjectUtils;
 import myweb.demo.Entity.Cars;
 import myweb.demo.Entity.Image;
+import myweb.demo.Entity.User;
 import myweb.demo.Repository.ImageRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -20,9 +21,12 @@ public class ImageServiceImpl implements ImageService {
     private ImageRepository imageRepository;
     @Autowired
     private CarsService carsService;
+    @Autowired
+    private  UserService userService;
     @Override
-    public Image create(MultipartFile multipartFile, Long carsId) {
+    public Image create(MultipartFile multipartFile, Long carsId, String email) {
         Cars cars = carsService.getById(carsId);
+        User user = userService.getByEmail(email);
         if (cars == null) return null;
         final String urlKey = "cloudinary://686196192879841:idlpOxiySGmoCAwvWGReXMmhm8U@drtmc8tgv";
         File f ;
@@ -38,6 +42,7 @@ public class ImageServiceImpl implements ImageService {
             image.setUrl((String)uploadResult.get("url"));
             image.setFormat((String)uploadResult.get("format"));
             image.setCars(cars);
+            image.setUser(user);
              return imageRepository.save(image); //Сохраняем
         } catch (IOException e) {
             System.out.println(e.getMessage());

@@ -25,7 +25,7 @@ public class CarsController {
     public Cars getById(@PathVariable Long id){
         return carsService.getById(id);
       }
-      @GetMapping("{mark}")
+      @GetMapping("/{mark}")
     public List<Cars> getAllByMark (@PathVariable String mark){
           return carsService.getAllByMark(mark);
       }
